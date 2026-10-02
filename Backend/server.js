@@ -1,48 +1,81 @@
+require('dotenv').config()
+
 const express = require('express')
 const { MongoClient } = require('mongodb')
 const cors = require('cors')
 
 const app = express()
 
+// Environment variables
+const PORT = process.env.PORT || 3000
+const MONGO_URI = process.env.MONGO_URI
+
+if (!MONGO_URI) {
+    console.error('❌ MONGO_URI is not configured')
+    process.exit(1)
+}
+
 // Middleware
 app.use(cors())
 app.use(express.json())
 
-const url = 'mongodb://localhost:27017'
-
-const client = new MongoClient(url)
+const client = new MongoClient(MONGO_URI)
 
 async function main() {
+    try {
+        await client.connect()
 
-    await client.connect()
+        console.log('MongoDB Connected ✅')
 
-    console.log("MongoDB Connected ✅")
+        const db = client.db('passop')
+        const collection = db.collection('documents')
 
-    const db = client.db('passop')
+        // POST
+        app.post('/', async (req, res) => {
+            try {
+                console.log(req.body)
 
-    const collection = db.collection('documents')
+                const result = await collection.insertOne(req.body)
 
-    // POST
-    app.post('/', async (req, res) => {
+                res.send(result)
+            } catch (error) {
+                console.error('POST Error:', error)
+                res.status(500).json({
+                    error: 'Failed to save data'
+                })
+            }
+        })
 
-        console.log(req.body)
+        // GET
+        app.get('/', async (req, res) => {
+            try {
+                const data = await collection.find({}).toArray()
 
-        const result = await collection.insertOne(req.body)
+                res.json(data)
+            } catch (error) {
+                console.error('GET Error:', error)
+                res.status(500).json({
+                    error: 'Failed to fetch data'
+                })
+            }
+        })
 
-        res.send(result)
-    })
+        // Health check
+        app.get('/health', (req, res) => {
+            res.json({
+                status: 'ok',
+                message: 'Passop Backend is running 🚀'
+            })
+        })
 
-    // GET
-    app.get('/', async (req, res) => {
+        app.listen(PORT, '0.0.0.0', () => {
+            console.log(`Server Running on port ${PORT} 🚀`)
+        })
 
-        const data = await collection.find({}).toArray()
-
-        res.json(data)
-    })
-
-    app.listen(3000, () => {
-        console.log("Server Running 🚀")
-    })
+    } catch (error) {
+        console.error('❌ Server startup failed:', error)
+        process.exit(1)
+    }
 }
 
 main()
