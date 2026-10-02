@@ -1,16 +1,87 @@
-# React + Vite
+# 🔐 PassOP — Password Manager
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A full-stack password manager built with **React, Vite, Express.js, and MongoDB Atlas**.
 
-Currently, two official plugins are available:
+PassOP provides a simple and responsive interface to save, view, edit, copy, and delete password records while keeping data persisted in a MongoDB database.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+---
 
-## React Compiler
+## 🚀 Live Demo
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+🌐 **Frontend:**  
+https://passop-password-manager-nine.vercel.app
 
-## Expanding the ESLint configuration
+⚙️ **Backend API:**  
+https://passop-password-manager-pact.onrender.com
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+---
+
+## ✨ Features
+
+- 🔐 Save password records
+- 👁️ Show / hide passwords
+- 📋 Copy website, username, and password
+- ✏️ Edit existing password records
+- 🗑️ Delete password records
+- 🔄 Persistent data storage with MongoDB Atlas
+- ⚡ REST API powered by Express.js
+- 📱 Responsive user interface
+- 🎨 Modern UI built with Tailwind CSS
+- ☁️ Deployed frontend and backend
+- 🔄 Real-time frontend ↔ backend communication
+
+---
+
+## 🛠️ Tech Stack
+
+### Frontend
+
+- React.js
+- Vite
+- JavaScript
+- Tailwind CSS
+- React Toastify
+- UUID
+
+### Backend
+
+- Node.js
+- Express.js
+- MongoDB Driver
+- CORS
+- dotenv
+
+### Database
+
+- MongoDB Atlas
+
+### Deployment
+
+- Vercel — Frontend
+- Render — Backend
+- MongoDB Atlas — Database
+
+---
+
+## 🏗️ Architecture
+
+```text
+┌─────────────────────────┐
+│      React + Vite       │
+│       Frontend          │
+└────────────┬────────────┘
+             │
+             │ REST API
+             ▼
+┌─────────────────────────┐
+│      Express.js         │
+│       Backend           │
+│        Render           │
+└────────────┬────────────┘
+             │
+             │ MongoDB Driver
+             ▼
+┌─────────────────────────┐
+│      MongoDB Atlas      │
+│   passop.documents      │
+└─────────────────────────┘
